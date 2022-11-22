@@ -7,7 +7,7 @@ public class Token {
     private int lineNum;
 
     public Token(TokType t, String l, int line) {
-        this(t, l, null, line)
+        this(t, l, null, line);
     }
 
     public Token(TokType t, String l, String v, int line) {
@@ -34,6 +34,6 @@ public class Token {
     }
 
     public String toString() {
-        return String.format("Type: %s, Lexeme: %s, Value: %s, LineNum: %d", this.type, this.lexeme, this.value, this.lineNum)
+        return String.format("Type: %s, Lexeme: %s, Value: %s, LineNum: %d", this.type, this.lexeme, this.value, this.lineNum);
     }
 }
