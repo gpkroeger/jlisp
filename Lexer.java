@@ -180,8 +180,10 @@ public class Lexer {
         String res = "" + c;
         while(index < length) {
             char cur = s.charAt(index);
-            if((cur >= '0' && cur <= '9') || cur == '.')
+            if((cur >= '0' && cur <= '9') || cur == '.') {
                 index++;
+                res+=cur;
+            }
             else
                 break;
         }

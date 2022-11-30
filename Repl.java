@@ -14,31 +14,29 @@ public class Repl {
     };
     public final static Function<ArrayList<Expr>, Object> subtract = new Function<ArrayList<Expr>, Object>() {
         public Double apply(ArrayList<Expr> args) {
-            Double diff = 0.0;
-            double sign = 1.0;
-            for (Expr t : args) {
-                diff+=sign*Double.parseDouble(t.getValue());
-                sign = 1.0;
+            Double cur = Double.parseDouble(args.get(0).getValue());
+            for(int i = 1; i < args.size(); i++) {
+                cur-=Double.parseDouble(args.get(i).getValue());
             }
-            return diff;
+            return cur;
         }
     };
     public final static Function<ArrayList<Expr>, Object> divide = new Function<ArrayList<Expr>, Object>() {
         public Double apply(ArrayList<Expr> args) {
-            double start = Double.parseDouble(args.get(0).getValue());
+            Double cur = Double.parseDouble(args.get(0).getValue());
             for(int i = 1; i < args.size(); i++) {
-                start /= Double.parseDouble(args.get(i).getValue());
+                cur/=Double.parseDouble(args.get(i).getValue());
             }
-            return start;
+            return cur;
         }
     };
     public final static Function<ArrayList<Expr>, Object> multiply = new Function<ArrayList<Expr>, Object>() {
         public Double apply(ArrayList<Expr> args) {
-            double start = Double.parseDouble(args.get(0).getValue());
+            Double cur = Double.parseDouble(args.get(0).getValue());
             for(int i = 1; i < args.size(); i++) {
-                start *= Double.parseDouble(args.get(i).getValue());
+                cur*=Double.parseDouble(args.get(i).getValue());
             }
-            return start;
+            return cur;
         }
     };
 
