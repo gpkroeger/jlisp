@@ -22,14 +22,18 @@ public class List extends Expr {
     }
 
     public TokType getType() {
-        return TokType.LIST;
+        return this.left.getType();
+    }
+
+    public boolean isList() {
+        return true;
     }
     
     public Expr getLeft() {
         return left;
     }
 
-    public ArrayList<Expr> getOthers() {
+    public ArrayList<Expr> getChildren() {
         return others;
     }
 

@@ -88,6 +88,7 @@ public class Lexer {
                 type = TokType.NUM;
                 lexeme = getNumber(c);
                 literal = lexeme;
+                break;
             default:
                 String word = c + getWord();
                 if (word.toUpperCase().equals("DEFINE")) {

@@ -5,7 +5,7 @@ public class Token extends Expr {
     private String lexeme;
     private String value;
     private int lineNum;
-    private ArrayList<Token> children;
+    private ArrayList<Expr> children;
 
     public Token(TokType t, String l, int line) {
         this(t, l, null, line);
@@ -16,7 +16,7 @@ public class Token extends Expr {
         this.lexeme = l;
         this.value = v;
         this.lineNum = line;
-        this.children = new ArrayList<Token>(0);
+        this.children = new ArrayList<Expr>(0);
     }
 
     public TokType getType() {
@@ -40,7 +40,7 @@ public class Token extends Expr {
                 this.lineNum);
     }
 
-    public ArrayList<Token> getChildren() {
+    public ArrayList<Expr> getChildren() {
         return this.children;
     }
 
@@ -54,6 +54,10 @@ public class Token extends Expr {
 
     public void addChildren(ArrayList<Token> children) {
         this.children.addAll(children);
+    }
+
+    public boolean isList() {
+        return false;
     }
 
     public Token copy() {
