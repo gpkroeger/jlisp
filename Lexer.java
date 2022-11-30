@@ -1,4 +1,3 @@
-import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Lexer {
@@ -6,18 +5,18 @@ public class Lexer {
     private int lineNum;
     private int length;
     private int index;
-    private ArrayList<Token> tokens;
+    private ArrayList<Expr> tokens;
 
     public Lexer(String s) {
         this.s = s;
         this.lineNum = 1;
         this.length = s.length();
         this.index = 0;
-        this.tokens = new ArrayList<Token>(0);
+        this.tokens = new ArrayList<Expr>(0);
     }
 
-    public ArrayList<Token> lex() {
-        while(this.index < this.length) {
+    public ArrayList<Expr> lex() {
+        while (this.index < this.length) {
             this.tokens.add(this.getNextToken());
         }
         return this.tokens;
@@ -25,7 +24,7 @@ public class Lexer {
 
     public Token getNextToken() {
         ignoreWhitespace();
-        
+
         TokType type;
         String lexeme;
         int line = this.lineNum;
@@ -33,7 +32,7 @@ public class Lexer {
 
         char c = consumeNextChar();
 
-        switch(c) {
+        switch (c) {
             case '(':
                 type = TokType.OPEN_PAREN;
                 lexeme = "(";
@@ -72,37 +71,37 @@ public class Lexer {
                 break;
             default:
                 String word = c + getWord();
-                if(word.toUpperCase().equals("DEFINE")) {
+                if (word.toUpperCase().equals("DEFINE")) {
                     type = TokType.DEFINE;
                     lexeme = word;
-                } else if(word.toUpperCase().equals("SET")) {
+                } else if (word.toUpperCase().equals("SET")) {
                     type = TokType.SET;
                     lexeme = word;
-                } else if(word.toUpperCase().equals("CONS")) {
+                } else if (word.toUpperCase().equals("CONS")) {
                     type = TokType.CONS;
                     lexeme = word;
-                } else if(word.toUpperCase().equals("COND")) {
+                } else if (word.toUpperCase().equals("COND")) {
                     type = TokType.COND;
                     lexeme = word;
-                } else if(word.toUpperCase().equals("CAR")) {
+                } else if (word.toUpperCase().equals("CAR")) {
                     type = TokType.CAR;
                     lexeme = word;
-                } else if(word.toUpperCase().equals("CDR")) {
+                } else if (word.toUpperCase().equals("CDR")) {
                     type = TokType.CDR;
                     lexeme = word;
-                } else if(word.toUpperCase().equals("NUMBER?")) {
+                } else if (word.toUpperCase().equals("NUMBER?")) {
                     type = TokType.NUMBER_QUES;
                     lexeme = word;
-                } else if(word.toUpperCase().equals("SYMBOL?")) {
+                } else if (word.toUpperCase().equals("SYMBOL?")) {
                     type = TokType.SYMBOL_QUES;
                     lexeme = word;
-                } else if(word.toUpperCase().equals("LIST?")) {
+                } else if (word.toUpperCase().equals("LIST?")) {
                     type = TokType.LIST_QUES;
                     lexeme = word;
-                } else if(word.toUpperCase().equals("NIL?")) {
+                } else if (word.toUpperCase().equals("NIL?")) {
                     type = TokType.NIL_QUES;
                     lexeme = word;
-                } else if(word.toUpperCase().equals("EQ?")) {
+                } else if (word.toUpperCase().equals("EQ?")) {
                     type = TokType.EQ_QUES;
                     lexeme = word;
                 } else {
@@ -118,8 +117,9 @@ public class Lexer {
 
     public void ignoreWhitespace() {
         char c = s.charAt(index);
-        while(c == ' ' || c == '\n') {
-            if(c == '\n') lineNum++;
+        while (c == ' ' || c == '\n') {
+            if (c == '\n')
+                lineNum++;
             index++;
             c = s.charAt(index);
         }
@@ -135,12 +135,34 @@ public class Lexer {
 
     public String getWord() {
         int i = index;
-        while(index < length) {
+        while (index < length) {
             char c = s.charAt(index);
-            if(c == ' ' || c == '\n' || c == '(' || c == ')')
+            if (c == ' ' || c == '\n' || c == '(' || c == ')')
                 break;
             index++;
         }
         return s.substring(i, index);
+    }
+
+    public static ArrayList<Expr> astify(ArrayList<Expr> lis) throws Exception {
+        ArrayList<Expr> res = new ArrayList<Expr>(0);
+        int index = 0;
+        int len = lis.size();
+        Expr cur;
+
+        while (index < len) {
+            if (lis.get(index).getType() == TokType.OPEN_PAREN) {
+                int closeIndex = List.findCloser(lis, index, len);
+                cur = List.listify(lis, index + 1, closeIndex - 1);
+                index = closeIndex;
+            } else {
+                cur = lis.get(index);
+            }
+
+            res.add(cur);
+            index++;
+        }
+
+        return res;
     }
 }

@@ -27,5 +27,8 @@ public enum TokType {
     EQ_QUES, // EQ?
 
     //LITERAL
-    LITERAL
+    LITERAL,
+
+    //LIST
+    LIST
 }

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Token {
+public class Token extends Expr {
     private TokType type;
     private String lexeme;
     private String value;
@@ -59,48 +59,49 @@ public class Token {
     public Token copy() {
         return new Token(type, lexeme, value, lineNum);
     }
-
-    //TODO: ADD CHECKER FOR MISMATCHED PARENTHESIS
-    public static ArrayList<Token> astify(ArrayList<Token> list) {
-        int index = 0;
-        Token cur;
-        ArrayList<Token> result = new ArrayList<Token>(0);
-        while (index < list.size()) {
-            cur = list.get(index).copy();
-            if (cur.getType() == TokType.OPEN_PAREN) {
-                Token parent = list.get(++index).copy();
-                ArrayList<Token> children = findChildren(list, ++index);
-                index += children.size() + 1;
-                children = astify(children);
-                parent.addChildren(children);
-                result.add(parent);
-            } else {
-                result.add(cur);
-            }
-            index++;
-        }
-        return result;
-    }
-
-    public static ArrayList<Token> findChildren(ArrayList<Token> list, int index) {
-        ArrayList<Token> result = new ArrayList<Token>(0);
-        int open = 1;
-        int closed = 0;
-        while (index < list.size()) {
-            Token cur = list.get(index).copy();
-            if (cur.getType() == TokType.OPEN_PAREN) {
-                open++;
-            } else if (cur.getType() == TokType.CLOSE_PAREN) {
-                closed++;
-            }
-            if (closed == open) {
-                break;
-            } else {
-                result.add(cur);
-            }
-
-            index++;
-        }
-        return result;
-    }
 }
+
+//     //TODO: ADD CHECKER FOR MISMATCHED PARENTHESIS
+//     public static ArrayList<Token> astify(ArrayList<Token> list) {
+//         int index = 0;
+//         Token cur;
+//         ArrayList<Token> result = new ArrayList<Token>(0);
+//         while (index < list.size()) {
+//             cur = list.get(index).copy();
+//             if (cur.getType() == TokType.OPEN_PAREN) {
+//                 Token parent = list.get(++index).copy();
+//                 ArrayList<Token> children = findChildren(list, ++index);
+//                 index += children.size() + 1;
+//                 children = astify(children);
+//                 parent.addChildren(children);
+//                 result.add(parent);
+//             } else {
+//                 result.add(cur);
+//             }
+//             index++;
+//         }
+//         return result;
+//     }
+
+//     public static ArrayList<Token> findChildren(ArrayList<Token> list, int index) {
+//         ArrayList<Token> result = new ArrayList<Token>(0);
+//         int open = 1;
+//         int closed = 0;
+//         while (index < list.size()) {
+//             Token cur = list.get(index).copy();
+//             if (cur.getType() == TokType.OPEN_PAREN) {
+//                 open++;
+//             } else if (cur.getType() == TokType.CLOSE_PAREN) {
+//                 closed++;
+//             }
+//             if (closed == open) {
+//                 break;
+//             } else {
+//                 result.add(cur);
+//             }
+
+//             index++;
+//         }
+//         return result;
+//     }
+// }
