@@ -29,6 +29,10 @@ public enum TokType {
     //LITERAL
     LITERAL,
 
+    //STRING AND NUM
+    STRING,
+    NUM,
+
     //LIST
     LIST
 }
