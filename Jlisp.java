@@ -8,5 +8,9 @@ public class Jlisp {
         for(Token t : lis) {
             System.out.println(t);
         }
+
+        ArrayList<Token> asts = Token.astify(lis);
+
+        System.out.println(asts.get(0).getChildren());
     }
 }
