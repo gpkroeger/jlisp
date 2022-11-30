@@ -5,7 +5,7 @@ import java.util.function.Function;
 public class Jlisp {
     public static void main(String[] args) {
         // Lexer lexie = new Lexer("(define findInTree (x tree)\n(cond\n(nil? tree) ()\n(eq? x (car tree)) t\n(< x (car tree)) (findInTree x (car (cdr tree)))\n(> x (car tree)) (findInTree x (cdr (cdr tree)))\nt ()\n)\n)");
-        Lexer lexie = new Lexer("(+ 1 2 3) (/ 12 2) (* 12 0.5) (- 13 7)");
+        Lexer lexie = new Lexer("(+ 1 2 3) (/ 12 2) (* 12 0.5) (- 13 7) (< 1 2) (> 2 1) (= 1 1)");
         ArrayList<Expr> lis = lexie.lex();
         ArrayList<Expr> asts = new ArrayList<Expr>(0);
 

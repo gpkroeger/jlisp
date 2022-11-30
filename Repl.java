@@ -40,6 +40,30 @@ public class Repl {
         }
     };
 
+    public final static Function<ArrayList<Expr>, Object> gt = new Function<ArrayList<Expr>, Object>() {
+        public Boolean apply(ArrayList<Expr> args) {
+            Double a = Double.parseDouble(args.get(0).getValue());
+            Double b = Double.parseDouble(args.get(1).getValue());
+            return a > b;
+        }
+    };
+
+    public final static Function<ArrayList<Expr>, Object> eq = new Function<ArrayList<Expr>, Object>() {
+        public Boolean apply(ArrayList<Expr> args) {
+            Double a = Double.parseDouble(args.get(0).getValue());
+            Double b = Double.parseDouble(args.get(1).getValue());
+            return Math.abs(a - b) < 0.0001;
+        }
+    };
+
+    public final static Function<ArrayList<Expr>, Object> lt = new Function<ArrayList<Expr>, Object>() {
+        public Boolean apply(ArrayList<Expr> args) {
+            Double a = Double.parseDouble(args.get(0).getValue());
+            Double b = Double.parseDouble(args.get(1).getValue());
+            return a < b;
+        }
+    };
+
     public HashMap<TokType, Function<ArrayList<Expr>, Object>> map;
 
     public Repl() {
@@ -48,6 +72,9 @@ public class Repl {
         map.put(TokType.MINUS, subtract);
         map.put(TokType.DIVIDE, divide);
         map.put(TokType.TIMES, multiply);
+        map.put(TokType.LESS_THAN, lt);
+        map.put(TokType.EQUALS, eq);
+        map.put(TokType.GREATER_THAN, gt);
     }
 
     public HashMap<TokType, Function<ArrayList<Expr>, Object>> getMap() {
