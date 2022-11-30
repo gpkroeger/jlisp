@@ -11,6 +11,9 @@
 - (* arg1 arg2 .. argN)
 - (- arg1 arg2 .. argN)
 - (/ arg1 arg2 .. argN)
+- (= arg1 arg2)
+- (< arg1 arg2)
+- (> arg1 arg2)
 
 ### KNOWN ISSUES:
 - using a single quote to signify true as is often done in lisp is not currently working:
