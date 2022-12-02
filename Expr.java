@@ -5,4 +5,5 @@ public abstract class Expr {
     public abstract String getValue();
     public abstract ArrayList<Expr> getChildren();
     public abstract boolean isList();
+    public abstract int getLineNumber();
 }

@@ -3,8 +3,8 @@
 ### Authors: Gabe Kroeger, Owen Russell, Riley Parker
 
 ### USAGE:
-- compile: javac Jlisp.java && javac List.java
-- run: java Jlisp
+- compile: javac *.java
+- run tests: java Tests
 
 ### FUNCTIONALITY:
 - (+ arg1 arg2 .. argN)
@@ -17,8 +17,12 @@
 
 ### KNOWN ISSUES:
 - using a single quote to signify true as is often done in lisp is not currently working:
-- example 't
-- reason: the lexer sees this as an opening quote
-- list class doesn't compile with the rest of the program
-- example: running "javac Jlisp.java" compiles the program but not List.java
-- reason: unknown
+    - example 't
+    - reason: the lexer sees this as an opening quote
+- numbers are limited by java's double library
+    - example: (- 0.234567 0.123456) doesn't return 0.111111 as expected, rather a slightly off value
+    - reason: same as java
+- negative numbers are not yet supported
+    - example: (+ 1 -2) causes failure
+    - reason: difficult to implement difference between subtract function and negative
+

@@ -31,7 +31,7 @@ public class Token extends Expr {
         return this.value;
     }
 
-    public int getLineNum() {
+    public int getLineNumber() {
         return this.lineNum;
     }
 

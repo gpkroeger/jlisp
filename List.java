@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 
 public class List extends Expr {
-    Expr left;
-    ArrayList<Expr> others;
+    private Expr left;
+    private ArrayList<Expr> others;
+    private int lineNum;
 
     public List() {
         this(null, new ArrayList<Expr>(0));
@@ -15,6 +16,11 @@ public class List extends Expr {
     public List(Expr l, ArrayList<Expr> lis) {
         left = l;
         others = lis;
+        lineNum = l.getLineNumber();
+    }
+
+    public int getLineNumber() {
+        return this.lineNum;
     }
 
     public String getValue() {
