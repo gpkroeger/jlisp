@@ -20,6 +20,30 @@ public class Tests {
         TestObject subTestLong = new TestObject("(- 105030.123 105029.123)", "1.0");
         t.addTest(subTestLong);
 
+        TestObject multTest = new TestObject("(* 2 5 1)", "10.0");
+        t.addTest(multTest);
+
+        TestObject divideTest = new TestObject("(/ 10 2)", "5.0");
+        t.addTest(divideTest);
+
+        TestObject equalsTestFalse = new TestObject("(= 10.234 10.321)", "false");
+        t.addTest(equalsTestFalse);
+
+        TestObject equalsTestTrue = new TestObject("(= 5 5)", "true");
+        t.addTest(equalsTestTrue);
+
+        TestObject lessThanTestTrue = new TestObject("(< 2.31 4.21)", "true");
+        t.addTest(lessThanTestTrue);
+
+        TestObject lessThanTestFAlse = new TestObject("(< 4.5 0.1234567)", "false");
+        t.addTest(lessThanTestFAlse);
+
+        TestObject greaterThanTestTrue = new TestObject("(> 1000.231 1000.230)", "true");
+        t.addTest(greaterThanTestTrue);
+
+        TestObject greaterThanTestFAlse = new TestObject ("(> 1000.234 1000.235)", "false");
+        t.addTest(greaterThanTestFAlse);
+
         t.runTests();
     }
 }
