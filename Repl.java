@@ -101,10 +101,33 @@ public class Repl {
         }
     };
 
-    public HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> map;
+    // public final static Function<ArrayList<ProgramObject>, ProgramObject> set = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+    //     public ProgramObject apply(ArrayList<ProgramObject> args) {
+    //         try {
+    //             String key = (String) args.get(0).getValue();
+    //             Object value = (String) args.get(1).getValue();
+                
+    //         } catch (Exception e) {
+    //             Jlisp.failGracefully("Syntax Error: < takes only two numberic values", -1);
+    //         }
+    //         return new ProgramBool(false);
+    //     }
+    // };
+
+    private HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> map;
+    private HashMap<String, ProgramObject> litsMap;
+
+    public void addLit(String s, ProgramObject p) {
+        litsMap.put(s, p);
+    }
+
+    public ProgramObject getLit(String s) {
+        return litsMap.get(s);
+    }
 
     public Repl() {
         map = new HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>>();
+        litsMap = new HashMap<String, ProgramObject>();
         map.put(TokType.PLUS, add);
         map.put(TokType.MINUS, subtract);
         map.put(TokType.DIVIDE, divide);
@@ -112,6 +135,7 @@ public class Repl {
         map.put(TokType.LESS_THAN, lt);
         map.put(TokType.EQUALS, eq);
         map.put(TokType.GREATER_THAN, gt);
+        // map.put(TokType.SET, set);
     }
 
     public HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> getMap() {

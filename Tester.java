@@ -22,6 +22,7 @@ public class Tester {
     public void runTests() {
         int testsFailed = 0;
         int testsPassed = 0;
+        Jlisp driver = new Jlisp();
 
         for(int i = 0; i < tests.size(); i++) {
             String input = tests.get(i).getInput();
@@ -29,7 +30,7 @@ public class Tester {
             System.out.println("Running Test #" + i+1 + " of " + tests.size());
             System.out.println("Input: " + input);
             System.out.println("Expected output: "+ eOut);
-            String actOut = Jlisp.run(input).toString();
+            String actOut = driver.run(input).toString();
             boolean testPassed = tests.get(i).compareToOutput(actOut);
             System.out.println("Act Output: " + actOut);
             if(testPassed) {

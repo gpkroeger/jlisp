@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 public class Jlisp {
-    public static ArrayList<ProgramObject> run(String input) {
+    public ArrayList<ProgramObject> run(String input) {
         // Lexer lexie = new Lexer("(define findInTree (x tree)\n(cond\n(nil? tree) ()\n(eq? x (car tree)) t\n(< x (car tree)) (findInTree x (car (cdr tree)))\n(> x (car tree)) (findInTree x (cdr (cdr tree)))\nt ()\n)\n)");
         // Lexer lexie = new Lexer("(+ 1 2 3) (/ 12 2) (* 12 0.5) (- 13 7) (< 1 2) (> 2 1) (= 1 1)");
         Lexer lexie = new Lexer(input);
@@ -27,25 +27,26 @@ public class Jlisp {
 
         // ProgramObject p = eval();
         // return str;
+        Repl repl = new Repl();
         ArrayList<ProgramObject> programOutput = new ArrayList<ProgramObject>(0);
         for(Expr e : asts) {
             ArrayList<Expr> children = e.getChildren();
-            ArrayList<ProgramObject> args = programmify(children);
-            programOutput.add(eval(e.getType(), args));
+            ArrayList<ProgramObject> args = programmify(children, repl);
+            programOutput.add(eval(e.getType(), args, repl));
         }
 
         return programOutput;
     }
 
-    public static ProgramObject eval(TokType fun, ArrayList<ProgramObject> args) {
-        HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> map = new Repl().getMap();
+    public ProgramObject eval(TokType fun, ArrayList<ProgramObject> args, Repl repl) {
+        HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> map = repl.getMap();
         ProgramObject res;
         Function<ArrayList<ProgramObject>, ProgramObject> func = map.get(fun);
         res = func.apply(args);
         return res;
     }
 
-    public static ArrayList<ProgramObject> programmify(ArrayList<Expr> toks) {
+    public ArrayList<ProgramObject> programmify(ArrayList<Expr> toks, Repl repl) {
         ArrayList<ProgramObject> res = new ArrayList<ProgramObject>(0);
         for(Expr e : toks) {
             switch(e.getType()) {
@@ -60,8 +61,14 @@ public class Jlisp {
                         failGracefully(f.getMessage(), -1);
                     }
                     break;
-                // case STRING:
-                //     res.add(new ProgramString(e.getValue()));
+                case STRING:
+                    res.add(new ProgramString(e.getValue()));
+                case LIST:
+                    ArrayList<ProgramObject> args = programmify(e.getChildren(), repl);
+                    res.add(eval(e.getType(), args, repl));
+                case LITERAL:
+                    ProgramObject value = repl.getLit(e.getValue());
+                    res.add(value);
                 default:
                     failGracefully("type was not accounted for in programmify", e.getLineNumber());
             }
