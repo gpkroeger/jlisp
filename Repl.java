@@ -3,108 +3,108 @@ import java.util.function.Function;
 import java.util.HashMap;
 
 public class Repl {
-    public final static Function<ArrayList<Expr>, ProgramObject> add = new Function<ArrayList<Expr>, ProgramObject>() {
-        public ProgramObject apply(ArrayList<Expr> args) {
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> add = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
             Double sum = 0.0;
-            for (Expr t : args) {
+            for (ProgramObject t : args) {
                 try {
-                    sum+=Double.parseDouble(t.getValue());
+                    sum += (Double)(t.getValue());
                 } catch(Exception e) {
-                    Jlisp.failGracefully("Syntax Error: + takes only numeric values as arguments", t.getLineNumber());
+                    Jlisp.failGracefully("Syntax Error: + takes only numeric values as arguments", -1);
                 }
             }
             return new ProgramNumber(sum);
         }
     };
-    public final static Function<ArrayList<Expr>, ProgramObject> subtract = new Function<ArrayList<Expr>, ProgramObject>() {
-        public ProgramObject apply(ArrayList<Expr> args) {
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> subtract = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
             Double cur = null;
             int i = 0;
             try {
-                cur = Double.parseDouble(args.get(0).getValue());
+                cur = (Double)(args.get(0).getValue());
                 for(i = 1; i < args.size(); i++) {
-                    cur-=Double.parseDouble(args.get(i).getValue());
+                    cur-=(Double)(args.get(i).getValue());
                 }
             } catch(Exception e) {
-                Jlisp.failGracefully("Syntax Error: - takes only numeric values as arguments", args.get(i).getLineNumber());   
+                Jlisp.failGracefully("Syntax Error: - takes only numeric values as arguments", -1);   
             }
             return new ProgramNumber(cur);
         }
     };
-    public final static Function<ArrayList<Expr>, ProgramObject> divide = new Function<ArrayList<Expr>, ProgramObject>() {
-        public ProgramNumber apply(ArrayList<Expr> args) {
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> divide = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramNumber apply(ArrayList<ProgramObject> args) {
             Double cur = null;
             int i = 0;
             try {
-                cur = Double.parseDouble(args.get(0).getValue());
+                cur = (Double)(args.get(0).getValue());
                 for(i = 1; i < args.size(); i++) {
-                    cur/=Double.parseDouble(args.get(i).getValue());
+                    cur/=(Double)(args.get(i).getValue());
                 }
             } catch(Exception e) {
-                Jlisp.failGracefully("Syntax Error: / takes only numeric values as arguments", args.get(i).getLineNumber());   
+                Jlisp.failGracefully("Syntax Error: / takes only numeric values as arguments", -1);   
             }
             return new ProgramNumber(cur);
         }
     };
-    public final static Function<ArrayList<Expr>, ProgramObject> multiply = new Function<ArrayList<Expr>, ProgramObject>() {
-        public ProgramObject apply(ArrayList<Expr> args) {
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> multiply = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
             Double cur = null;
             int i = 0;
             try {
-                cur = Double.parseDouble(args.get(0).getValue());
+                cur = (Double)(args.get(0).getValue());
                 for(i = 1; i < args.size(); i++) {
-                    cur*=Double.parseDouble(args.get(i).getValue());
+                    cur*=(Double)(args.get(i).getValue());
                 }
             } catch(Exception e) {
-                Jlisp.failGracefully("Syntax Error: * takes only numeric values as arguments", args.get(i).getLineNumber());   
+                Jlisp.failGracefully("Syntax Error: * takes only numeric values as arguments", -1);   
             }
             return new ProgramNumber(cur);
         }
     };
 
-    public final static Function<ArrayList<Expr>, ProgramObject> gt = new Function<ArrayList<Expr>, ProgramObject>() {
-        public ProgramObject apply(ArrayList<Expr> args) {
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> gt = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
             try {
-            Double a = Double.parseDouble(args.get(0).getValue());
-            Double b = Double.parseDouble(args.get(1).getValue());
+            Double a = (Double)(args.get(0).getValue());
+            Double b = (Double)(args.get(1).getValue());
             return new ProgramBool(a > b);
             } catch (Exception e) {
-                Jlisp.failGracefully("Syntax Error: > takes only two numberic values", args.get(0).getLineNumber());   
+                Jlisp.failGracefully("Syntax Error: > takes only two numberic values", -1);   
             }
             return new ProgramBool(false);
         }
     };
 
-    public final static Function<ArrayList<Expr>, ProgramObject> eq = new Function<ArrayList<Expr>, ProgramObject>() {
-        public ProgramObject apply(ArrayList<Expr> args) {
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> eq = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
             try {
-                Double a = Double.parseDouble(args.get(0).getValue());
-                Double b = Double.parseDouble(args.get(1).getValue());
+                Double a = (Double)(args.get(0).getValue());
+                Double b = (Double)(args.get(1).getValue());
                 return new ProgramBool(Math.abs(a - b) < 0.0001);
             } catch (Exception e) {
-                Jlisp.failGracefully("Syntax Error: = takes only two numberic values", args.get(0).getLineNumber());
+                Jlisp.failGracefully("Syntax Error: = takes only two numberic values", -1);
             }
             return new ProgramBool(false);
         }
     };
 
-    public final static Function<ArrayList<Expr>, ProgramObject> lt = new Function<ArrayList<Expr>, ProgramObject>() {
-        public ProgramObject apply(ArrayList<Expr> args) {
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> lt = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
             try {
-                Double a = Double.parseDouble(args.get(0).getValue());
-                Double b = Double.parseDouble(args.get(1).getValue());
+                Double a = (Double)(args.get(0).getValue());
+                Double b = (Double)(args.get(1).getValue());
                 return new ProgramBool(a < b);
             } catch (Exception e) {
-                Jlisp.failGracefully("Syntax Error: < takes only two numberic values", args.get(0).getLineNumber());
+                Jlisp.failGracefully("Syntax Error: < takes only two numberic values", -1);
             }
             return new ProgramBool(false);
         }
     };
 
-    public HashMap<TokType, Function<ArrayList<Expr>, ProgramObject>> map;
+    public HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> map;
 
     public Repl() {
-        map = new HashMap<TokType, Function<ArrayList<Expr>, ProgramObject>>();
+        map = new HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>>();
         map.put(TokType.PLUS, add);
         map.put(TokType.MINUS, subtract);
         map.put(TokType.DIVIDE, divide);
@@ -114,7 +114,7 @@ public class Repl {
         map.put(TokType.GREATER_THAN, gt);
     }
 
-    public HashMap<TokType, Function<ArrayList<Expr>, ProgramObject>> getMap() {
+    public HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> getMap() {
         return map;
     }
 
