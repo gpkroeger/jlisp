@@ -24,6 +24,10 @@ public class ProgramList extends ProgramObject {
         return lis.addAll(ps);
     }
 
+    public boolean cons(ProgramList l) {
+        return lis.addAll(l.getList());
+    }
+
     public ProgramObject car() {
         if(lis == null || lis.size() == 0) {
             Jlisp.failGracefully("car was called on a null list", -1);
@@ -34,7 +38,7 @@ public class ProgramList extends ProgramObject {
 
     public ProgramList cdr() {
         if(lis == null || lis.size() == 0) {
-            Jlisp.failGracefully("car was called on a null list", -1);
+            Jlisp.failGracefully("cdr was called on a null list", -1);
         }
 
         lis.remove(0);
@@ -50,6 +54,10 @@ public class ProgramList extends ProgramObject {
     }
 
     public Object getValue() {
+        return lis;
+    }
+
+    public ArrayList<ProgramObject> getList() {
         return lis;
     }
 }
