@@ -12,3 +12,11 @@ Repl$7.class
 Repl.class
 Token.class
 TokType.class
+Jlisp$1.class
+ProgramBool.class
+ProgramNumber.class
+ProgramObject.class
+ProgramObjectType.class
+Tester.class
+TestObject.class
+Tests.class
