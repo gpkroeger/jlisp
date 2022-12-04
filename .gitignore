@@ -20,3 +20,9 @@ ProgramObjectType.class
 Tester.class
 TestObject.class
 Tests.class
+ProgramList.class
+ProgramLiteral.class
+ProgramString.class
+ProgramVariable.class
+Repl$8.class
+Repl$9.class
