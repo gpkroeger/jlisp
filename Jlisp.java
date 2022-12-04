@@ -20,13 +20,11 @@ public class Jlisp {
             failGracefully(e.getMessage(), 0);
         }
 
-        //FOR DEBUG USE, UNCOMMENT TO SEE OUTPUT OF AST
+        // FOR DEBUG USE, UNCOMMENT TO SEE OUTPUT OF AST
         // for(Expr child : asts) {
         //     System.out.println(child);
         // }
 
-        // ProgramObject p = eval();
-        // return str;
         Repl repl = new Repl();
         ArrayList<ProgramObject> programOutput = new ArrayList<ProgramObject>(0);
         for(Expr e : asts) {
@@ -43,12 +41,17 @@ public class Jlisp {
         ProgramObject res;
         Function<ArrayList<ProgramObject>, ProgramObject> func = map.get(fun);
         res = func.apply(args);
+        if(res.getType() == ProgramObjectType.VARIABLE) {
+            // System.out.println("DEBUG: setting key now");
+            repl.addLit(((ProgramVariable)res).getKey(), res);
+        }
         return res;
     }
 
     public ArrayList<ProgramObject> programmify(ArrayList<Expr> toks, Repl repl) {
         ArrayList<ProgramObject> res = new ArrayList<ProgramObject>(0);
-        for(Expr e : toks) {
+        for(int i = 0; i < toks.size(); i++) {
+            Expr e = toks.get(i);
             switch(e.getType()) {
                 case CLOSE_PAREN:
                 case OPEN_PAREN:
@@ -68,9 +71,15 @@ public class Jlisp {
                     res.add(eval(e.getType(), args, repl));
                 case LITERAL:
                     ProgramObject value = repl.getLit(e.getValue());
-                    res.add(value);
+                    if(value != null)
+                        res.add(value);
+                    else {
+                        // failGracefully("undeclared variable or function encountered while parsing", -1);
+                        res.add(new ProgramLiteral(e.getValue()));
+                    }
+                    break;
                 default:
-                    failGracefully("type was not accounted for in programmify", e.getLineNumber());
+                    failGracefully("type: " + e.getType() + " was not accounted for in programmify", e.getLineNumber());
             }
         }
         return res;

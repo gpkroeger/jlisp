@@ -4,5 +4,6 @@ public enum ProgramObjectType {
     NUMBER,
     STRING,
     LIST,
-    BOOL
+    BOOL,
+    LITERAL,
 }

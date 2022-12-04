@@ -27,7 +27,7 @@ public class Tester {
         for(int i = 0; i < tests.size(); i++) {
             String input = tests.get(i).getInput();
             String eOut = tests.get(i).getOutput();
-            System.out.println("Running Test #" + i+1 + " of " + tests.size());
+            System.out.println("Running Test #" + (i+1) + " of " + tests.size());
             System.out.println("Input: " + input);
             System.out.println("Expected output: "+ eOut);
             String actOut = driver.run(input).toString();

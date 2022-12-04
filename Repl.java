@@ -10,7 +10,7 @@ public class Repl {
                 try {
                     sum += (Double)(t.getValue());
                 } catch(Exception e) {
-                    Jlisp.failGracefully("Syntax Error: + takes only numeric values as arguments", -1);
+                    Jlisp.failGracefully("Syntax Error: + takes only numeric values as arguments, given type " + t.getType(), -1);
                 }
             }
             return new ProgramNumber(sum);
@@ -101,18 +101,20 @@ public class Repl {
         }
     };
 
-    // public final static Function<ArrayList<ProgramObject>, ProgramObject> set = new Function<ArrayList<ProgramObject>, ProgramObject>() {
-    //     public ProgramObject apply(ArrayList<ProgramObject> args) {
-    //         try {
-    //             String key = (String) args.get(0).getValue();
-    //             Object value = (String) args.get(1).getValue();
-                
-    //         } catch (Exception e) {
-    //             Jlisp.failGracefully("Syntax Error: < takes only two numberic values", -1);
-    //         }
-    //         return new ProgramBool(false);
-    //     }
-    // };
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> set = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
+            String key="";
+            ProgramObject value=null;
+            try {
+                assert(args.size() == 2);
+                key = (String)args.get(0).getValue();
+                value = args.get(1);
+            } catch (Exception e) {
+                Jlisp.failGracefully("Syntax Error: SET TAKES ONLY 2 VALUES", -1);
+            }
+            return new ProgramVariable(key, value);
+        }
+    };
 
     private HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> map;
     private HashMap<String, ProgramObject> litsMap;
@@ -135,7 +137,7 @@ public class Repl {
         map.put(TokType.LESS_THAN, lt);
         map.put(TokType.EQUALS, eq);
         map.put(TokType.GREATER_THAN, gt);
-        // map.put(TokType.SET, set);
+        map.put(TokType.SET, set);
     }
 
     public HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> getMap() {

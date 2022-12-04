@@ -47,6 +47,9 @@ public class Tests {
         TestObject testMultipleCommands = new TestObject ("(= 10 5) (+ 1 5) (- 5 2.3)", "[false, 6.0, 2.7]");
         t.addTest(testMultipleCommands);
 
+        TestObject testVariables = new TestObject ("(set var1 5)(set var2 8)(+ var1 var2)","[5.0, 8.0, 13.0]");
+        t.addTest(testVariables);
+
         t.runTests();
     }
 }
