@@ -173,7 +173,7 @@ public class Lexer {
             }
             index++;
         }
-        return c + s.substring(i, index);
+        return c + s.substring(i, ++index);
     }
 
     public String getNumber(char c) {

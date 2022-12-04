@@ -70,6 +70,7 @@ public class Jlisp {
                         break;
                     case STRING:
                         res.add(new ProgramString(e.getValue()));
+                        break;
                     case LITERAL:
                         ProgramObject value = repl.getLit(e.getValue());
                         if(value != null)

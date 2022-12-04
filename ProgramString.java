@@ -18,6 +18,6 @@ public class ProgramString extends ProgramObject{
     }
 
     public String toString() {
-        return value;
+        return '"' + value + '"';
     }
 }

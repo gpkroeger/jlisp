@@ -138,7 +138,54 @@ public class Repl {
                 }
                 ((ProgramList)parent).cons((ProgramList)child);
             } catch (Exception e) {
-                Jlisp.failGracefully("Syntax Error: SET TAKES ONLY 2 VALUES", -1);
+                Jlisp.failGracefully("Syntax Error: Invalid CONS statement: cons takes 2 arguments", -1);
+            }
+            return parent;
+        }
+    };
+
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> car = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
+            ProgramObject parent = null;
+            ProgramObject result = null;
+            try {
+                assert(args.size() == 1);
+                parent = args.get(0);
+                if(parent.getType() == ProgramObjectType.VARIABLE) {
+                    parent = ((ProgramVariable)parent).getObject();
+                }
+                assert(parent.getType() == ProgramObjectType.LIST);
+                result = ((ProgramList)parent).car();
+            } catch (Exception e) {
+                Jlisp.failGracefully("Syntax Error: Invalid CAR statement, takes one statement and it MUST be a list", -1);
+            }
+            return result;
+        }
+    };
+
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> cdr = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
+            ProgramObject parent = null;
+            ProgramObject child = null;
+            try {
+                assert(args.size() == 2);
+                parent = args.get(0);
+                child = args.get(1);
+                if(parent.getType() == ProgramObjectType.VARIABLE) {
+                    parent = ((ProgramVariable)parent).getObject();
+                }
+                if(child.getType() == ProgramObjectType.VARIABLE) {
+                    child = ((ProgramVariable)child).getObject();
+                }
+                if(parent.getType() != ProgramObjectType.LIST) {
+                    parent = new ProgramList(parent);
+                }
+                if(child.getType() != ProgramObjectType.LIST) {
+                    child = new ProgramList(child);
+                }
+                ((ProgramList)parent).cons((ProgramList)child);
+            } catch (Exception e) {
+                Jlisp.failGracefully("Syntax Error: Invalid CDR statement, takes one statement and it MUST be a list", -1);
             }
             return parent;
         }
@@ -167,6 +214,8 @@ public class Repl {
         map.put(TokType.GREATER_THAN, gt);
         map.put(TokType.SET, set);
         map.put(TokType.CONS, cons);
+        map.put(TokType.CAR, car);
+        map.put(TokType.CDR, cdr);
     }
 
     public HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> getMap() {

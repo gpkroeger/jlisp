@@ -56,9 +56,15 @@ public class Tests {
         TestObject testConsList = new TestObject("(cons 4 (cons 4 (cons 4 4)))", "[[4.0, 4.0, 4.0, 4.0]]");
         t.addTest(testConsList);
 
+        TestObject testMisMatchedTypeList = new TestObject("(cons 'hello world' 4)", "[[\"hello world\", 4.0]]");
+        t.addTest(testMisMatchedTypeList);
+        
         TestObject testConsListVariables = new TestObject("(set lis1 (cons 4 4)) (set lis2 (cons 5 5)) (cons lis1 lis2)", "[[4.0, 4.0, 5.0, 5.0], [5.0, 5.0], [4.0, 4.0, 5.0, 5.0]]");
         t.addTest(testConsListVariables); 
         //since this is evaluated first and variables are objects, lis1 will return the final val when printed
+
+        TestObject testCar = new TestObject("(car (cons 3.0 5.0))", "[3.0]");
+        t.addTest(testCar);
 
         t.runTests();
     }
