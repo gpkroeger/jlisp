@@ -66,6 +66,9 @@ public class Tests {
         TestObject testCar = new TestObject("(car (cons 3.0 5.0))", "[3.0]");
         t.addTest(testCar);
 
+        TestObject testCdr = new TestObject("(cdr (cons 4.0 (cons 5.0 6.0)))", "[[5.0, 6.0]]");
+        t.addTest(testCdr);
+
         t.runTests();
     }
 }
