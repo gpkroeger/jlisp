@@ -52,34 +52,36 @@ public class Jlisp {
         ArrayList<ProgramObject> res = new ArrayList<ProgramObject>(0);
         for(int i = 0; i < toks.size(); i++) {
             Expr e = toks.get(i);
-            switch(e.getType()) {
-                case CLOSE_PAREN:
-                case OPEN_PAREN:
-                    failGracefully("programming error, parens still present after astify", e.getLineNumber());
-                    break;
-                case NUM:
-                    try {
-                        res.add(new ProgramNumber(Double.parseDouble(e.getValue())));
-                    } catch(Exception f) {
-                        failGracefully(f.getMessage(), -1);
-                    }
-                    break;
-                case STRING:
-                    res.add(new ProgramString(e.getValue()));
-                case LIST:
-                    ArrayList<ProgramObject> args = programmify(e.getChildren(), repl);
-                    res.add(eval(e.getType(), args, repl));
-                case LITERAL:
-                    ProgramObject value = repl.getLit(e.getValue());
-                    if(value != null)
-                        res.add(value);
-                    else {
-                        // failGracefully("undeclared variable or function encountered while parsing", -1);
-                        res.add(new ProgramLiteral(e.getValue()));
-                    }
-                    break;
-                default:
-                    failGracefully("type: " + e.getType() + " was not accounted for in programmify", e.getLineNumber());
+            if(e.isList()) {
+                ArrayList<ProgramObject> args = programmify(e.getChildren(), repl);
+                res.add(eval(e.getType(), args, repl));
+            } else {
+                switch(e.getType()) {
+                    case CLOSE_PAREN:
+                    case OPEN_PAREN:
+                        failGracefully("programming error, parens still present after astify", e.getLineNumber());
+                        break;
+                    case NUM:
+                        try {
+                            res.add(new ProgramNumber(Double.parseDouble(e.getValue())));
+                        } catch(Exception f) {
+                            failGracefully(f.getMessage(), -1);
+                        }
+                        break;
+                    case STRING:
+                        res.add(new ProgramString(e.getValue()));
+                    case LITERAL:
+                        ProgramObject value = repl.getLit(e.getValue());
+                        if(value != null)
+                            res.add(value);
+                        else {
+                            // failGracefully("undeclared variable or function encountered while parsing", -1);
+                            res.add(new ProgramLiteral(e.getValue()));
+                        }
+                        break;
+                    default:
+                        failGracefully("type: " + e.getType() + " was not accounted for in programmify", e.getLineNumber());
+                }
             }
         }
         return res;

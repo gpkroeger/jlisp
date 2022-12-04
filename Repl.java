@@ -116,6 +116,34 @@ public class Repl {
         }
     };
 
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> cons = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
+            ProgramObject parent = null;
+            ProgramObject child = null;
+            try {
+                assert(args.size() == 2);
+                parent = args.get(0);
+                child = args.get(1);
+                if(parent.getType() == ProgramObjectType.VARIABLE) {
+                    parent = ((ProgramVariable)parent).getObject();
+                }
+                if(child.getType() == ProgramObjectType.VARIABLE) {
+                    child = ((ProgramVariable)child).getObject();
+                }
+                if(parent.getType() != ProgramObjectType.LIST) {
+                    parent = new ProgramList(parent);
+                }
+                if(child.getType() != ProgramObjectType.LIST) {
+                    child = new ProgramList(child);
+                }
+                ((ProgramList)parent).cons((ProgramList)child);
+            } catch (Exception e) {
+                Jlisp.failGracefully("Syntax Error: SET TAKES ONLY 2 VALUES", -1);
+            }
+            return parent;
+        }
+    };
+
     private HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> map;
     private HashMap<String, ProgramObject> litsMap;
 
@@ -138,6 +166,7 @@ public class Repl {
         map.put(TokType.EQUALS, eq);
         map.put(TokType.GREATER_THAN, gt);
         map.put(TokType.SET, set);
+        map.put(TokType.CONS, cons);
     }
 
     public HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> getMap() {

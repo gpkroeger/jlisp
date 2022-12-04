@@ -11,6 +11,10 @@ public class ProgramVariable extends ProgramObject {
         return ProgramObjectType.VARIABLE;
     }
 
+    public ProgramObject getObject() {
+        return value;
+    }
+
     public String getKey() {
         return key;
     }

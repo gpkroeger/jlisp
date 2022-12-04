@@ -87,7 +87,7 @@ public class List extends Expr {
         int open = 0;
         int close = 0;
         while (true) {
-            if (left >= right) {
+            if (left > right) {
                 throw new Exception("Mismatched parenthesis");
             }
 

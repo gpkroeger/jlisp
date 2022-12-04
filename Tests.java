@@ -50,6 +50,12 @@ public class Tests {
         TestObject testVariables = new TestObject ("(set var1 5)(set var2 8)(+ var1 var2)","[5.0, 8.0, 13.0]");
         t.addTest(testVariables);
 
+        TestObject testCons = new TestObject("(cons 1 5)", "[[1.0, 5.0]]");
+        t.addTest(testCons);
+
+        TestObject testConsList = new TestObject("(cons 4 (cons 4 (cons 4 4)))", "[[4.0, 4.0, 4.0, 4.0]]");
+        t.addTest(testConsList);
+
         t.runTests();
     }
 }
