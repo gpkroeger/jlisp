@@ -85,7 +85,7 @@ public class Tests {
         t.addTest(testNil);
 
         TestObject testNum = new TestObject("(set x 4.0) (cond (num? x) ('x is num') t ('x is not num') )", "[4.0, x is num]");
-        t.addTest(testNil);
+        t.addTest(testNum);
 
         TestObject testSym = new TestObject("(set x 4.0) (cond (sym? x) ('x is sym') t ('x is not sym') )", "[4.0, x is sym]");
         t.addTest(testSym);

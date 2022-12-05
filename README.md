@@ -17,9 +17,13 @@
 - (cond condition expr ... condition expr)
 - (set varName varValue)
 - (define funName (args) expr)
-- cons(item1 item2)
-- car(lis)
-- cdr(lis)
+- (cons item1 item2)
+- (car lis)
+- (cdr lis)
+- (num? val)
+- (sym? val)
+- (nil? val)
+- (lis? val)
 
 ### KNOWN ISSUES:
 - using a single quote to signify true as is often done in lisp is not currently working:
