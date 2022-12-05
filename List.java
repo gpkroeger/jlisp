@@ -16,7 +16,10 @@ public class List extends Expr {
     public List(Expr l, ArrayList<Expr> lis) {
         left = l;
         others = lis;
-        lineNum = l.getLineNumber();
+        if(l != null)
+            lineNum = l.getLineNumber();
+        else
+            lineNum = 1;
     }
 
     public int getLineNumber() {
@@ -47,6 +50,15 @@ public class List extends Expr {
         return (others.size() == 0 && left == null);
     }
 
+    public ArrayList<String> getAll() {
+        ArrayList<String> res = new ArrayList<String>(1+others.size());
+        res.add(left.getValue());
+        for(Expr e : others) {
+            res.add(e.getValue());
+        }
+        return res;
+    }
+
     public String toString() {
         return String.format("Type: %s, Left: %s, Others: %s", "LIST", left, others);
     }
@@ -54,12 +66,15 @@ public class List extends Expr {
     // prereq: the parameter arraylist is between one open paren and one
     // closed paren which are not present wihtin the indices at the time of passing
     // through
-    public static List listify(ArrayList<Expr> t, int left, int right) throws Exception {
+    public static Expr listify(ArrayList<Expr> t, int left, int right) throws Exception {
         Expr l;
         ArrayList<Expr> others = new ArrayList<Expr>(0);
         Expr cur;
         if (left == right) {
-            return new List();
+            return new List(t.get(left));
+        }
+        if (left > right) {
+            return new Token(TokType.EMPTY_LIST, "()", -1);
         }
 
         l = t.get(left++);

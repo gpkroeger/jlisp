@@ -6,4 +6,8 @@ public abstract class Expr {
     public abstract ArrayList<Expr> getChildren();
     public abstract boolean isList();
     public abstract int getLineNumber();
+
+    public boolean isNil() {
+        return this.getValue() == null;
+    }
 }

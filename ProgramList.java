@@ -16,6 +16,10 @@ public class ProgramList extends ProgramObject {
         lis = l;
     }
 
+    public boolean isNil() {
+        return lis.size() == 0;
+    }
+
     public boolean cons(ProgramObject p) {
         return lis.add(p);
     }

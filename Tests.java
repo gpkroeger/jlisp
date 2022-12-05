@@ -69,6 +69,30 @@ public class Tests {
         TestObject testCdr = new TestObject("(cdr (cons 4.0 (cons 5.0 6.0)))", "[[5.0, 6.0]]");
         t.addTest(testCdr);
 
+        TestObject testDefine = new TestObject("(define sum2 (x y) (+ x y)) (sum2 5 10)", "[Function: sum2, 15.0]");
+        t.addTest(testDefine);
+
+        TestObject testDefine2 = new TestObject("(define average (x y z) (/ (+ x y z) 3)) (average 2 4 6) (average 3 6 9)", "[Function: average, 4.0, 6.0]");
+        t.addTest(testDefine2);
+
+        TestObject testCond = new TestObject("(define sumIfEqOrElseSub (x y) (cond (= x y) (+ x y) t (- x y))) (sumIfEqOrElseSub 1 1) (sumIfEqOrElseSub 6 2)", "[Function: sumIfEqOrElseSub, 2.0, 4.0]");
+        t.addTest(testCond);
+
+        TestObject testCond2 = new TestObject("(cond (= 1 2)('first path')(= 2 4)('second path') t ('third path'))", "[third path]");
+        t.addTest(testCond2);
+
+        TestObject testNil = new TestObject("(set x ()) (cond (nil? x) ('x is nil') t ('x is not nil') )", "[[], x is nil]");
+        t.addTest(testNil);
+
+        TestObject testNum = new TestObject("(set x 4.0) (cond (num? x) ('x is num') t ('x is not num') )", "[4.0, x is num]");
+        t.addTest(testNil);
+
+        TestObject testSym = new TestObject("(set x 4.0) (cond (sym? x) ('x is sym') t ('x is not sym') )", "[4.0, x is sym]");
+        t.addTest(testSym);
+
+        TestObject testLis = new TestObject("(set x (cons 3 4)) (cond (lis? x) ('x is lis') t ('x is not lis') )", "[[3.0, 4.0], x is lis]");
+        t.addTest(testLis);
+
         t.runTests();
     }
 }

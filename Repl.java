@@ -182,8 +182,44 @@ public class Repl {
         }
     };
 
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> cond = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
+            return args.get(0);
+        }
+    };
+
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> def = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
+            return args.get(0);
+        }
+    };
+
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> isNil = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
+            return new ProgramBool(args.get(0).isNil());
+        }
+    };
+
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> isSymbol = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
+            return new ProgramBool(args.get(0).isSymbol());
+        }
+    };
+
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> isList = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
+            return new ProgramBool(args.get(0).isList());
+        }
+    };
+
+    public final static Function<ArrayList<ProgramObject>, ProgramObject> isNumber = new Function<ArrayList<ProgramObject>, ProgramObject>() {
+        public ProgramObject apply(ArrayList<ProgramObject> args) {
+            return new ProgramBool(args.get(0).isNumber());
+        }
+    };
+
     private HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> map;
-    private HashMap<String, ProgramObject> litsMap;
+    public HashMap<String, ProgramObject> litsMap;
 
     public void addLit(String s, ProgramObject p) {
         litsMap.put(s, p);
@@ -192,6 +228,18 @@ public class Repl {
     public ProgramObject getLit(String s) {
         return litsMap.get(s);
     }
+
+    public HashMap<String, ProgramObject> putAll(HashMap<String, ProgramObject> m) {
+        litsMap.putAll(m);
+        return litsMap;
+    }
+
+    // public HashMap<String, ProgramObject> removeAll(ArrayList<String> args) {
+    //     for(String s : args) {
+    //         litsMap.remove(s);
+    //     }
+    //     return litsMap;
+    // }
 
     public Repl() {
         map = new HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>>();
@@ -207,6 +255,12 @@ public class Repl {
         map.put(TokType.CONS, cons);
         map.put(TokType.CAR, car);
         map.put(TokType.CDR, cdr);
+        map.put(TokType.COND, cond);
+        map.put(TokType.DEFINE, def);
+        map.put(TokType.NIL_QUES, isNil);
+        map.put(TokType.SYMBOL_QUES, isSymbol);
+        map.put(TokType.NUMBER_QUES, isNumber);
+        map.put(TokType.LIST_QUES, isList);
     }
 
     public HashMap<TokType, Function<ArrayList<ProgramObject>, ProgramObject>> getMap() {

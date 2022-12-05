@@ -33,6 +33,9 @@ public enum TokType {
     STRING,
     NUM,
 
+    //EMPTY LIST
+    EMPTY_LIST,
+
     //LIST
     LIST
 }

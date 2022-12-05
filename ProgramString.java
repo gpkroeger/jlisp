@@ -10,7 +10,7 @@ public class ProgramString extends ProgramObject{
     }
 
     public Object getValue() {
-        return value;
+        return "" + value + "";
     }
 
     public ProgramObjectType getType() {

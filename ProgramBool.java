@@ -17,6 +17,10 @@ public class ProgramBool extends ProgramObject {
         return Boolean.valueOf(this.value);
     }
 
+    public boolean isNil() {
+        return !(this.value);
+    }
+
     public ProgramObjectType getType() {
         return ProgramObjectType.BOOL;
     }
