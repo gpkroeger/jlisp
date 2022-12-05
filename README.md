@@ -5,6 +5,7 @@
 ### USAGE:
 - compile: javac *.java
 - run tests: java Tests
+- cleanup: rm -f *.class
 
 ### FUNCTIONALITY:
 - (+ arg1 arg2 .. argN)
