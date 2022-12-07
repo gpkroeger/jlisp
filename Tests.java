@@ -1,5 +1,13 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
 public class Tests {
-    public static void main(String args[]) {
+
+    public static void main(String args[]) throws FileNotFoundException {
+        File f = new File("tests.txt");
+        PrintStream p = new PrintStream(f);
+        System.setOut(p);
         Tester t = new Tester();
         
         TestObject additionTest = new TestObject("(+ 2 4)", "[6.0]");
